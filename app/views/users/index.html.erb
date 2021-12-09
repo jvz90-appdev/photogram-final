@@ -21,6 +21,7 @@
     </th>
 
     <th></th>
+    <th></th>
   </tr>
 
   <% @users.each do |user| %>
@@ -31,13 +32,26 @@
 
     <td>
       <%= 
-      if user.private = "True"
+      if user.private
         'Yes'
       else
         'No'
       end
 
       %>
+    </td>
+
+    <td>
+      <% if user != nil%>
+      <form action="/insert_follow_request" method="post">
+        <input type="hidden" name="query_recipient_id" value="91">
+
+        <button>
+          Follow
+        </button>
+      </form>
+      <% else %>
+      <% end%>
     </td>
 
     <td>
