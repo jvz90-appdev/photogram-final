@@ -6,10 +6,17 @@ class UsersController < ApplicationController
   end
 
   def show
-  the_username = params.fetch("the_username")
-  @user = User.where({ :username => the_username }).at(0)
+    the_username = params.fetch("the_username")
+    @user = User.where({ :username => the_username }).at(0)
 
-  render({ :template => "users/show.html.erb" })
+    render({ :template => "users/show.html.erb" })
+  end
+
+  def feedpage
+    the_username = params.fetch("the_username")
+    @user = User.where({ :username => the_username }).at(0)
+
+    render({ :template => "users/feedpage.html.erb" })
   end
 
 
