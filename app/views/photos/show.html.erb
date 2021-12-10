@@ -10,11 +10,13 @@
           Go back
         </a>
       </div>
-
+      
       <div>
+      <% if @the_photo.poster.id == session.fetch(:user_id) %>
         <a href="/delete_photo/<%= @the_photo.id %>">
           Delete photo
         </a>
+      <% end %>
       </div>
     </div>
 
@@ -67,6 +69,14 @@
       <dd>
         <%= time_ago_in_words(@the_photo.updated_at) %> ago
       </dd>
+
+      <dt>Delete photo</dt>
+      <dd>
+        <a href="/delete_photo/952">
+          Delete this photo
+        </a>
+      </dd>
+
     </dl>
   </div>
 </div>
