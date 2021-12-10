@@ -19,5 +19,12 @@ class UsersController < ApplicationController
     render({ :template => "users/feedpage.html.erb" })
   end
 
+  def likedphotos
+    the_username = params.fetch("the_username")
+    @user = User.where({ :username => the_username }).at(0)
+
+    render({ :template => "users/likedphotos.html.erb" })
+  end
+
 
 end

@@ -46,7 +46,7 @@
 <dl>
   <dt>ID</dt>
   <dd><%= @user.id %></dd>
-  <% if session.fetch(:user_id) == @user.id %>
+
   <dt>Edit user</dt>
   <dd>
     <form action="/update_user/<%= @user.id %>" >
@@ -56,10 +56,9 @@
       <button>Update user</button>
     </form>
   </dd>
-  <% end%>
 </dl>
 
-<h2>Own photos (<%= @user.own_photos.count %>)</h2>
+<h2>Liked photos (<%= @user.liked_photos.count %>)</h2>
 
 <table border="1">
   <tr>
@@ -82,7 +81,7 @@
     <th></th>
   </tr>
 
-  <% @user.own_photos.each do |photo| %>
+  <% @user.liked_photos.each do |photo| %>
   <tr>
     <td>
       <img src="<%= photo.image %>">

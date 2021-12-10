@@ -76,6 +76,27 @@
           Delete this photo
         </a>
       </dd>
+      
+      <dt>
+        Add a fan
+      </dt>
+      <% a = Like.where({:fan_id => session[:user_id]}).where({:photo_id => @the_photo.id}).at(0) %>
+      <% if a != nil %>
+      <dd><a href="/delete_like/<%= a.id%>">Unlike</a ></dd>
+      <% else %>
+      <dd>
+        <form action="/insert_like" method="post">
+
+          <input type="hidden" id="fan_id_box" name="query_fan_id">
+
+          <input type="hidden" id="photo_id_box" name="query_photo_id" value="<%= @the_photo.id %>">
+
+          <button>
+            Like
+          </button>
+        </form>
+      </dd>
+      <% end %>
 
     </dl>
   </div>
