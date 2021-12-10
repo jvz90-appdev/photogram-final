@@ -3,6 +3,7 @@
 # Table name: photos
 #
 #  id             :integer          not null, primary key
+#  avatar         :string
 #  caption        :text
 #  comments_count :integer
 #  image          :string
@@ -14,6 +15,8 @@
 class Photo < ApplicationRecord
   validates(:poster, { :presence => true })
   validates(:image, { :presence => true })
+
+  mount_uploader :image, ImageUploader
   
   def poster
     return User.where({ :id => self.owner_id }).at(0)

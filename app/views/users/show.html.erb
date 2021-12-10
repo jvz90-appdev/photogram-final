@@ -8,21 +8,49 @@
   <dd>
     <%= @user.followers.count %>
 
-
-      <div>
-          <form action="/insert_follow_request" method="post">
-            <input type="hidden" name="query_recipient_id" value="<%= @user.id %>">
-
-            <button>
-              Follow
-            </button>
-          </form>
-    </div>
-
   </dd>
+
+<% if @user.id != session[:user_id] %>
+    <% a = FollowRequest.where({ :sender_id => session[:user_id]}).where({ :recipient_id => @user.id}).at(0) %>
+        <% if a == nil %>
+          <dd>
+          <form action="/insert_follow_request" method="post">
+          <input type="hidden" name="query_recipient_id" value="<%= @user.id%>">
+          <input type="hidden" name="query_status" value="accepted">
+          <button>Follow</button>
+          </form>
+          </dd>
+        <% else %>
+          <dd><a href="/delete_follow_request/<%= a.id%>">Unfollow</a ></dd>
+        <% end %>
+  <% end %>
+
 
   <dt>Following</dt>
   <dd><%= @user.following.count %></dd>
+    <% if @user.id != session[:user_id] %>
+    <% a = FollowRequest.where({ :sender_id => session[:user_id]}).where({ :recipient_id => @user.id}).at(0) %>
+        <% if a == nil %>
+          <dd>
+          <form action="/insert_follow_request" method="post">
+          <input id="send_follow_request" type="hidden" name="query_recipient_id" value="<%= @user.id%>">
+          <input id="follow_request_status" type="hidden" name="query_status" value="accepted">
+          <button>Follow</button>
+          </form>
+          </dd>
+        <% else %>
+          <dd><a href=" >">Unfollow</a ></dd>
+        <% end %>
+    <% end %>
+
+
+
+    <dt>Pending follow requests</dt>
+      <% @user.received_follow_requests.each do |follow| %>
+        <% if follow.status == "pending" %>
+          <dd><%= follow.sender.username %></dd>
+        <% end %>
+      <% end %>
 
 </dl>
 
@@ -79,6 +107,12 @@
       Posted
     </th>
 
+        
+        
+    <th>
+      Like
+    </th>
+
     <th></th>
   </tr>
 
@@ -97,7 +131,11 @@
     </td>
 
     <td>
-      <%= photo.created_at %>
+      <%= time_ago_in_words(photo.created_at) %> ago
+    </td>
+
+    <td>
+      <%= photo.likes.count %>
     </td>
     
     <td>

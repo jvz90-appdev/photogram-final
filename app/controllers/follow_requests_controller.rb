@@ -22,7 +22,7 @@ class FollowRequestsController < ApplicationController
     the_follow_request.sender_id = session.fetch(:user_id)
     # session.fetch("query_sender_id")
     the_follow_request.recipient_id = params.fetch("query_recipient_id")
-    the_follow_request.status = session.fetch("query_status")
+    the_follow_request.status = params.fetch("query_status")
 
     if the_follow_request.valid?
       the_follow_request.save

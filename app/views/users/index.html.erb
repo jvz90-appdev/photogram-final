@@ -75,7 +75,7 @@
         <% else %>
 
           <% if a.status == "pending" %>
-            <td>Request sent.<a href="/modify_follow_request/<%= a.id%>">Cancel</a ></td>
+            <td>Request sent.<a href="/delete_follow_request/<%= a.id%>">Cancel</a ></td>
           <% else %>
             <td><a href="/delete_follow_request/<%= a.id%>">Unfollow</a ></td>
           <% end %>

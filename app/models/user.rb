@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                             :integer          not null, primary key
+#  avatar                         :string
 #  comments_count                 :integer
 #  email                          :string
 #  likes_count                    :integer
@@ -19,6 +20,8 @@ class User < ApplicationRecord
   validates :email, :uniqueness => { :case_sensitive => false }
   validates :email, :presence => true
   has_secure_password
+
+  
 
   def own_photos
     return Photo.where({ :owner_id => self.id })
@@ -83,5 +86,7 @@ class User < ApplicationRecord
 
     return Photo.where({ :id => array_of_discover_photo_ids })
   end
+
+
 
 end
