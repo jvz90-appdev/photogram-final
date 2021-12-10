@@ -19,7 +19,8 @@ class FollowRequestsController < ApplicationController
 
   def create
     the_follow_request = FollowRequest.new
-    the_follow_request.sender_id = session.fetch("query_sender_id")
+    the_follow_request.sender_id = session.fetch(:user_id)
+    # session.fetch("query_sender_id")
     the_follow_request.recipient_id = params.fetch("query_recipient_id")
     the_follow_request.status = session.fetch("query_status")
 
@@ -53,6 +54,6 @@ class FollowRequestsController < ApplicationController
 
     the_follow_request.destroy
 
-    redirect_to("/follow_requests", { :notice => "Follow request deleted successfully."} )
+    redirect_to("/users/#{the_follow_request.recipient.username}", { :notice => "Follow request deleted successfully."} )
   end
 end

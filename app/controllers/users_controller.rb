@@ -8,8 +8,11 @@ class UsersController < ApplicationController
   def show
     the_username = params.fetch("the_username")
     @user = User.where({ :username => the_username }).at(0)
-
+    if @user.private == true
+    redirect_to("/users", { :alert => "You're not authorized for that." })
+    else
     render({ :template => "users/show.html.erb" })
+    end
   end
 
   def feedpage

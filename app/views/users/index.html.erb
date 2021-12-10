@@ -45,17 +45,48 @@
       %>
     </td>
 
-    <td>
+    
       <% if session.fetch(:user_id) != nil %>
-      <form action="/insert_follow_request" method="post">
-        <input type="hidden" name="query_recipient_id" value="91">
+      <% a = FollowRequest.where({ :sender_id => session[:user_id]}).where({ :recipient_id => user.id}).at(0) %>
+        <% if a == nil %>
+          <% if user.private == true %>
+            <td>
+              <form action="/insert_follow_request" method="post">
+                <input type="hidden" name="query_recipient_id" value="<%= user.id %>">
+                <input type="hidden" name="query_status" value="pending">
 
-        <button>
-          Follow
-        </button>
-      </form>
-      <% end%>
-    </td>
+
+              <button>
+                Follow
+              </button>
+              </form>
+            </td>
+          
+          <% else %>
+            <td>
+              <form action="/insert_follow_request" method="post">
+              <input type="hidden" name="query_recipient_id" value="<%= user.id%>">
+              <input type="hidden" name="query_status" value="accepted">
+              <button>Follow</button>
+              </form>
+            </td>
+          <% end %>
+        
+        <% else %>
+
+          <% if a.status == "pending" %>
+            <td>Request sent.<a href="/modify_follow_request/<%= a.id%>">Cancel</a ></td>
+          <% else %>
+            <td><a href="/delete_follow_request/<%= a.id%>">Unfollow</a ></td>
+          <% end %>
+
+        <% end %>
+
+      
+        
+    <% end %>
+
+    
 
     <td>
       <a href="/users/<%= user.username %>">Show details</a>
